@@ -21,7 +21,7 @@ async fn get_all_users (app_state: web::Data<AppState>) -> impl Responder {
                 })
                 .collect::<Vec<AllUsers>>()
         ) }
-        Err() => { HttpResponse::InternalServerError().body("Erro ao tentar buscar os usuários!") }
+        Err(e) => { HttpResponse::InternalServerError().body("Erro ao tentar buscar os usuários!") }
     }
 }
 
