@@ -1,9 +1,14 @@
-use actix_web::{ get, App, HttpResponse, HttpServer, Responder};
+use actix_web::{ get, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
-use serde_json::Number;
-
+use sqlx::{Pool, Postgres};
 mod databases {
     pub mod postgres_connection;
+}
+
+mod services;
+#[derive(Clone)]
+pub struct AppState {
+    postgres_client: Pool<Postgres>,
 }
 
 #[get("/")]
@@ -20,9 +25,14 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or("8080".to_string())
         .parse()
         .expect("Failed to parse port");
-    HttpServer::new(|| {
+
+    HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(AppState{
+                postgres_client: _pool.clone(),
+            }))
             .service(index)
+            .configure(services::users::services::user_routes)
     })
     .bind((ip, port))?
     .run()
