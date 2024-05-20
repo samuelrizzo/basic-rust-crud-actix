@@ -1,0 +1,9 @@
+{
+    "[rust]": {
+        "editor.defaultFormatter": "jinxdash.prettier-rust",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit"
+        },
+    }
+}

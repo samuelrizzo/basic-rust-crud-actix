@@ -1,4 +1,3 @@
-use std::future::IntoFuture;
 use actix_web::{get, post, put, delete, web, Responder, HttpResponse};
 use super::models::{AllUsers, RegisterUser,UpdateUser};
 use crate::AppState;
